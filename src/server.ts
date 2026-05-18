@@ -2,8 +2,9 @@ import dotenv from "dotenv";
 import app from "./app";
 import connetDataBase from "./config/db";
 
-dotenv.config();
-
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const port = process.env.PORT || 5000;
 
 connetDataBase()
