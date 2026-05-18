@@ -38,6 +38,9 @@ connetDataBase()
     process.exit(1);
   });
 
+
+
+  
 app.use((err: any, req: any, res: any, next: any) => {
   console.log(err.stack);
   res.status(500).json({ success: false, message: "Something went wrong!", err: err.message });
