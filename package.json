@@ -7,10 +7,12 @@
   "license": "ISC",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node ./src/app.ts",
-    "prepare": "husky",
+    "build": "npm i && tsc",
+    "start": "node dist/server.js",
+    "prepare": "husky || true",
     "lint": "eslint . --ext .ts,.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "jest"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -26,19 +28,27 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@tsconfig/node20": "^20.1.9",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/mocha": "^10.0.10",
     "@types/morgan": "^1.9.10",
+    "@types/supertest": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
     "eslint": "^10.4.0",
     "husky": "^9.1.7",
+    "jest": "^30.4.2",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
-    "ts-node": "^10.9.2"
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.9",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.59.3"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
