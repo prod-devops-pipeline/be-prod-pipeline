@@ -2,10 +2,8 @@ import router from "./routes";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
 
-dotenv.config();
+import cors from "cors";
 
 const app = express();
 
