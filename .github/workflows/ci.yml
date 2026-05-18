@@ -1,23 +1,97 @@
-# CI workflow to build, test, and lint the CRUD app on push or pull request
+# .github/workflows/ci.yml
+# Multi-stage CI pipeline for a Node.js + TypeScript backend
+
 name: CI Pipeline
+
 on:
   push:
-    branches: [main] # Trigger on pushes to main branch
+    branches:
+      - main
   pull_request:
-    branches: [main] # Trigger on PRs to main branch
+    branches:
+      - main
+
 jobs:
-  build:
-    runs-on: ubuntu-latest # Use GitHub's free Linux runner
+  # Stage 1: Install dependencies
+  install:
+    name: Install Dependencies
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3 # Check out the repository code
-      - name: Set up Node.js # Install Node.js environment
-        uses: actions/setup-node@v3
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18' # Use Node.js 18 for consistency
-      - name: Cache dependencies # Cache node_modules to speed up builds
-        uses: actions/cache@v3
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+  # Stage 2: Lint the code
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: ~/.npm # Cache npm’s global cache
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }} # Key based on OS and package-lock.json
-      - run: npm ci # Install dependencies reliably using package-lock.json
-      - run: npm run lint # Run ESLint to ensure code quality
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Lint
+        run: npm run lint
+
+  # Stage 3: Run Jest tests
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Jest Tests
+        run: npm test -- --runInBand
+
+  # Stage 4: Build the TypeScript application
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npm run build
