@@ -114,4 +114,4 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker Image
-        run: docker build -t securebackend:latest .
+        run: DOCKER_BUILDKIT=1 docker build -t securebackend:latest .
