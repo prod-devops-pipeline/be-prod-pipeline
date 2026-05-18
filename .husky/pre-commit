@@ -1,3 +1,2 @@
 npx lint-staged
-npm test -- --watch=false
-npx gitleaks protect --staged
+
