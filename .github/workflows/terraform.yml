@@ -2,11 +2,8 @@ name: Terraform Infrastructure
 
 on:
   push:
-    paths:
-      - "terraform/**"
   pull_request:
-    paths:
-      - "terraform/**"
+
 
 jobs:
   terraform:
