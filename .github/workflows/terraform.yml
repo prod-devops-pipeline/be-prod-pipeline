@@ -2,8 +2,9 @@ name: Terraform Infrastructure
 
 on:
   push:
+    branches: [main]
   pull_request:
-
+    branches: [main]
 
 jobs:
   terraform:
@@ -36,7 +37,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Terraform Plan
         run: terraform plan
