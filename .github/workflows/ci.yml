@@ -1,17 +1,20 @@
-name: Application CI/CD Pipeline
+# .github/workflows/ci.yml
+# Multi-stage CI pipeline with caching and Docker image build
+
+name: CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  # ==========================================
-  # CI STAGE: Code Quality & Testing
-  # ==========================================
-  ci:
-    name: Continuous Integration
+  # Stage 1: Install dependencies
+  install:
+    name: Install Dependencies
     runs-on: ubuntu-latest
 
     steps:
@@ -28,22 +31,80 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Run ESLint
+  # Stage 2: Lint
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+    needs: install
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js with npm Cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Lint
         run: npm run lint
 
-      - name: Run Jest Tests
+  # Stage 3: Test
+  test:
+    name: Run Jest Tests
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js with npm Cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Tests
         run: npm test -- --runInBand
+
+  # Stage 4: Build TypeScript Application
+  build:
+    name: Build TypeScript Application
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js with npm Cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
 
       - name: Build Project
         run: npm run build
 
-  # ==========================================
-  # DOCKER BUILD STAGE
-  # ==========================================
+  # Stage 5: Build Docker Image
   docker-build:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: ci
+    needs: build
 
     steps:
       - name: Checkout Source Code
