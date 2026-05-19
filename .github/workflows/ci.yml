@@ -91,12 +91,19 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init -input=false
+        run: terraform init
+
+      - name: Clear Local State Cache
+        # This makes sure the slot is completely empty before importing
+        run: terraform state rm render_web_service.backend || true
+
+      - name: Force Sync Existing Render Service
+        # This forces the pipeline to link directly to your Render service ID
+        run: terraform import render_web_service.backend srv-d8613kbrjlhs73adahr0
 
       - name: Terraform Plan
         run: terraform plan
 
-      # Only executes on merges/pushes to the main branch
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' # Optional: only deploy on main branch pushes
         run: terraform apply -auto-approve
