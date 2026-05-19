@@ -1,19 +1,34 @@
 import dotenv from "dotenv";
+dotenv.config();
+
 import app from "./app";
-import connetDataBase from "./config/db";
+import connectDatabase from "./config/db";
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 10000;
 
-connetDataBase()
-  .then(() => {
+// Handle unexpected errors globally
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION ❌", err);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED REJECTION ❌", err);
+  process.exit(1);
+});
+
+const startServer = async () => {
+  try {
+    await connectDatabase();
+    console.log("✅ Database connected successfully");
+
     app.listen(port, () => {
-      console.log(`Server is running on ${port}`);
+      console.log(`🚀 Server is running on port ${port}`);
     });
-  })
-  .catch((err: any) => {
-    console.error("Database connection error:", err);
+  } catch (error) {
+    console.error("❌ Database connection failed:", error);
     process.exit(1);
-  });
+  }
+};
+
+startServer();
