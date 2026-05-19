@@ -2,14 +2,8 @@ name: Terraform Infrastructure
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'terraform/**'    # Triggers only if files in the terraform folder change
   pull_request:
-    branches: [main]
-    paths:
-      - 'terraform/**'    # Triggers only if files in the terraform folder change
-
+    
 jobs:
   terraform:
     runs-on: ubuntu-latest
