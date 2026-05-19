@@ -3,25 +3,21 @@ resource "render_web_service" "backend" {
   region = "oregon"
   plan   = "free"
 
+  # Deploy using a Docker image from Docker Hub
+  # Example: yourdockerhubusername/securebackend:latest
   runtime_source = {
-    docker = {
-      repo_url    = var.github_repo
-      branch      = var.branch
-      auto_deploy = true
+    image = {
+      image_url = var.docker_image
     }
   }
 
   env_vars = {
-     NODE_ENV = {
-    value = "production"
-  }
+    NODE_ENV = {
+      value = "production"
+    }
 
     PORT = {
       value = var.port
-    }
-
-    NODE_ENV = {
-      value = "production"
     }
 
     DB_URL = {
