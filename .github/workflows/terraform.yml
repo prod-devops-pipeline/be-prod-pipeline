@@ -1,8 +1,12 @@
 name: Terraform Infrastructure
 
 on:
-  push:
-  pull_request:
+  workflow_run:
+    workflows: ["CI/CD Pipeline"] # Must match the exact 'name' of your CI workflow file
+    types:
+      - completed
+    branches:
+      - main
     
 jobs:
   terraform:
