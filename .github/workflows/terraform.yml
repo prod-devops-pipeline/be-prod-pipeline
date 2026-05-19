@@ -27,7 +27,7 @@ jobs:
       TF_VAR_salt_rounds: ${{ secrets.SALT_ROUNDS }}
       TF_VAR_service_name: ${{ secrets.SERVICE_NAME }}
 
-      TF_VAR_docker_image: ${{ secrets.DOCKER_USERNAME }}/securebackend:latest
+      TF_VAR_docker_image: ${{ secrets.DOCKER_USERNAME }}/securebackend
       TF_VAR_docker_tag: ${{ github.sha }}
     steps:
       - name: Checkout Code
