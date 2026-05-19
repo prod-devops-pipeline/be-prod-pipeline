@@ -2,7 +2,7 @@ name: Terraform Infrastructure
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"] # Must match the exact 'name' of your CI workflow file
+    workflows: ["CI/CD Pipeline"] # Must match the exact 'name' of your CI workflow file
     types:
       - completed
     branches:
