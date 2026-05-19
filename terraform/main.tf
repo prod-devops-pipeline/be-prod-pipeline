@@ -3,11 +3,15 @@ resource "render_web_service" "backend" {
   region = "oregon"
   plan   = "free"
 
-  # Deploy using a Docker image from Docker Hub
-  # Example: yourdockerhubusername/securebackend:latest
   runtime_source = {
     image = {
+      # Docker repository name WITHOUT the tag
+      # Example: yourdockerhubusername/securebackend
       image_url = var.docker_image
+
+      # Docker tag specified separately
+      # Example: latest or a Git commit SHA
+      tag = var.docker_tag
     }
   }
 
