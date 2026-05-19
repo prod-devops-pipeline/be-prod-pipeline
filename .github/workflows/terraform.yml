@@ -1,12 +1,16 @@
 name: Terraform Infrastructure
 
 on:
-  workflow_run:
-    workflows: ["CI/CD Pipeline"] # Must match the exact 'name' of your CI workflow file
-    types:
-      - completed
+  push:
     branches:
       - main
+    paths:
+      - 'terraform/**'    # Triggers only when files inside the terraform folder change
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'    # Triggers only when files inside the terraform folder change
     
 jobs:
   terraform:
