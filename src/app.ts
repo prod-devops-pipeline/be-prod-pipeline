@@ -36,7 +36,8 @@ app.use("/api", router);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Backend is running 🚀 This is the First Url ",
+    message:
+      "Backend is running 🚀 This is the First Url zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz ",
   });
 });
 
