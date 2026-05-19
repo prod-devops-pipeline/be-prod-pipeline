@@ -9,7 +9,7 @@
     "dev": "nodemon",
     "build": "npm i && tsc",
     "start": "node dist/server.js",
-    "prepare": "husky || true",
+     "prepare": "husky install || true",
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write .",
     "test": "jest"
