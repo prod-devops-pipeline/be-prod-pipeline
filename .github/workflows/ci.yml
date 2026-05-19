@@ -134,3 +134,17 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/securebackend:latest
             ${{ secrets.DOCKER_USERNAME }}/securebackend:${{ github.sha }}
+
+   # ==========================================
+  # Stage 6: Trigger Render Deployment
+  # ==========================================
+  deploy:
+    name: Trigger Render Deployment
+    runs-on: ubuntu-latest
+    needs: terraform
+
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Trigger Render Deploy Hook
+      run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
