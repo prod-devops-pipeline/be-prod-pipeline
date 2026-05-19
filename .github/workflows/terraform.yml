@@ -14,6 +14,7 @@ jobs:
         working-directory: terraform
 
     env:
+      TF_VAR_render_api_key: ${{ secrets.RENDER_API_KEY }}
       TF_VAR_github_repo: ${{ secrets.REPO_URL }}
       TF_VAR_branch: ${{ secrets.BRANCH }}
       TF_VAR_port: ${{ secrets.PORT }}
