@@ -5,12 +5,15 @@ on:
     branches:
       - main
     paths:
-      - 'terraform/**'    # Triggers only when files inside the terraform folder change
+      - 'terraform/**'
+      - '.github/workflows/terraform.yml'
+
   pull_request:
     branches:
       - main
     paths:
-      - 'terraform/**'    # Triggers only when files inside the terraform folder change
+      - 'terraform/**'
+      - '.github/workflows/terraform.yml'
     
 jobs:
   terraform:
@@ -36,7 +39,7 @@ jobs:
       TF_VAR_service_name: ${{ secrets.SERVICE_NAME }}
 
       TF_VAR_docker_image: ${{ secrets.DOCKER_USERNAME }}/securebackend
-      TF_VAR_docker_tag: ${{ github.sha }}
+      TF_VAR_docker_tag: latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
