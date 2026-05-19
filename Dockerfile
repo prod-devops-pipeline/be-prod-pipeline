@@ -41,5 +41,5 @@ COPY --from=builder /app/dist ./dist
 EXPOSE 5000
 
 # Start the application
-# Ensure your compiled entry file is dist/app.js
-CMD ["node", "dist/app.js"]
+# Ensure your compiled entry file is dist/server.js
+CMD ["node", "dist/server.js"]

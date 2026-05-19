@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const connetDataBase = async () => {
   console.log("connecting......");
-
+  console.log("ENV CHECK:");
   mongoose.connection.on("connected", () => console.log(" MongoDB Connected"));
   mongoose.connection.on("error", (err) => console.log(" MongoDB Error:", err));
 
